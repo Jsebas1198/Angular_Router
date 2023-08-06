@@ -18,9 +18,12 @@ import {
 export class ImgComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
-  counter = 0;
+
+  //Comentamos esta seccion porque ya no se utiliza, era solo para entender conceptos anteriores, se explica en el Notion
+  // counter = 0;
   //Para apagar el setInterval que sigue corriendo auque la imagen haya sido destruida
-  counterFn: number | undefined;
+
+  // counterFn: number | undefined;
 
   //1.
   //Antes del render
@@ -44,10 +47,10 @@ export class ImgComponent
   //Corre una sola vez
   ngOnInit(): void {
     console.log('ngOnInit', 'imgValue =>', this.img);
-    this.counterFn = window.setInterval(() => {
-      this.counter += 1;
-      console.log('run counter');
-    }, 1000);
+    // this.counterFn = window.setInterval(() => {
+    //   this.counter += 1;
+    //   console.log('run counter');
+    // }, 1000);
   }
   //4.
   //Corre despues de que todo esta renderizado
@@ -60,7 +63,7 @@ export class ImgComponent
   //Se ejecutra solo cuando se elimina un componente
   ngOnDestroy(): void {
     console.log('ngOnDestroy');
-    window.clearInterval(this.counterFn);
+    // window.clearInterval(this.counterFn);
   }
   img: string = '';
   @Input('img')
