@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IProduct } from 'src/app/models/product.model';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-products',
@@ -40,9 +41,16 @@ export class ProductsComponent {
     },
   ];
 
+  constructor(
+    private storeService: StoreService
+  ) {
+    this.myShoppingCart = this.storeService.getShoppingCart();
+  }
+
+
   //Funcion que agrega un producto al carrito y suma los precios
   onAddToShoppingCart(product: IProduct) {
-    this.myShoppingCart.push(product);
-    this.total = this.myShoppingCart.reduce((sum, item) => sum + item.price, 0);
+    this.storeService.addProduct(product);
+    this.total = this.storeService.getTotal();
   }
 }
