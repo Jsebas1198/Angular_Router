@@ -16,6 +16,9 @@ export class ProductsComponent implements OnInit {
 
   //Inicializamos la propiedad en un array  vacio que va a almacenar los datos de los productos traidos por la API
   products: IProduct[] = [];
+  //Propiedad para calcular  la fecha
+  today = new Date(2019, 4, 4);
+  anotherDate = new Date(2025, 5, 20);
 
   // products: IProduct[] = [
   //   {

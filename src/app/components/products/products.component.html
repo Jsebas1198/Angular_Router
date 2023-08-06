@@ -1,5 +1,13 @@
 <p>La cantidad {{ myShoppingCart.length }}</p>
 <p>Total: ${{ total }}</p>
+<p>Today: {{ today | timeAgo }}</p>
+<p>
+  Otra fecha con formato personalizado:
+  {{ anotherDate | date : "yyyy...dd...MM" }}
+</p>
+<p>
+  {{ "Prueba" | uppercase }}
+</p>
 <div class="products--grid">
   <app-product
     [theProduct]="product"
