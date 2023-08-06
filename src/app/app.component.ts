@@ -7,6 +7,7 @@ import { IProduct } from './models/product.model';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  showImg = true;
   imgParent = 'https://www.w3schools.com/howto/img_avatar.png';
   products: IProduct[] = [
     {
@@ -31,5 +32,9 @@ export class AppComponent {
 
   onLoaded(img: string) {
     console.log('log padre', img);
+  }
+
+  toogleImg() {
+    this.showImg = !this.showImg;
   }
 }
