@@ -7,6 +7,12 @@ import { IProduct } from 'src/app/models/product.model';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent {
+
+  //Array que detecta  los productos agregados al carrito
+  myShoppingCart: IProduct[] = [];
+  //Precio total de la suma de los precios de cada producto
+  total = 0;
+
   products: IProduct[] = [
     {
       id: '1',
@@ -33,4 +39,10 @@ export class ProductsComponent {
       image: 'https://source.unsplash.com/random',
     },
   ];
+
+  //Funcion que agrega un producto al carrito y suma los precios
+  onAddToShoppingCart(product: IProduct) {
+    this.myShoppingCart.push(product);
+    this.total = this.myShoppingCart.reduce((sum, item) => sum + item.price, 0);
+  }
 }
