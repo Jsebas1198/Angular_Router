@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { retry } from 'rxjs/operators';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+  HttpStatusCode,
+} from '@angular/common/http';
+import { catchError, retry } from 'rxjs/operators';
 
 import {
   CreateProductDTO,
   Product,
   updateProductDTO,
 } from './../models/product.model';
+import { throwError } from 'rxjs';
 
 // import { environment } from './../../environments/environment';
 @Injectable({
@@ -42,7 +48,20 @@ export class ProductsService {
 
   //Trae la información de un producto
   getProduct(id: string) {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+    return this.http.get<Product>(`${this.apiUrl}/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        switch (error.status) {
+          case HttpStatusCode.ServiceUnavailable:
+            return throwError(() => new Error('Service Unavailable'));
+            break;
+          case HttpStatusCode.NotFound:
+            return throwError(() => new Error('Product Not Found'));
+            break;
+          default:
+            return throwError(() => new Error('Error default'));
+        }
+      })
+    );
   }
 
   //Crea un

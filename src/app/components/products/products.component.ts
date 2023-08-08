@@ -8,6 +8,7 @@ import {
 
 import { StoreService } from '../../services/store.service';
 import { ProductsService } from '../../services/products.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-products',
@@ -36,7 +37,7 @@ export class ProductsComponent implements OnInit {
   };
   limit = 10;
   offset = 0;
-
+  statusDetail: 'loading' | 'success' | 'loading' | 'error' | 'init' = 'init';
   constructor(
     private storeService: StoreService,
     private productsService: ProductsService
@@ -94,11 +95,41 @@ export class ProductsComponent implements OnInit {
       this.showProductDetail = false;
     }
 
-    this.productsService.getProduct(id).subscribe((data: Product) => {
-      this.productChosen = data;
-      if (!this.showProductDetail) {
-        this.toggleProductDetail();
-      }
+    this.productsService.getProduct(id).subscribe({
+      next: (d) => this.showDetailOk(d),
+      // next: (data: Product) => {
+      //   this.productChosen = data;
+      //   this.statusDetail = 'success';
+      //   if (!this.showProductDetail) {
+      //     this.toggleProductDetail();
+      //   }
+      // },
+      error: (e) => this.showDetailError(e),
+    });
+  }
+
+  showDetailOk(data: Product) {
+    this.productChosen = data;
+    this.statusDetail = 'success';
+    if (!this.showProductDetail) {
+      this.toggleProductDetail();
+    }
+  }
+
+  //Muestra un modal si detecta un error
+  showDetailError(e: any) {
+    this.statusDetail = 'error';
+
+    this.toggleProductDetail();
+
+    Swal.fire({
+      title: 'Error!',
+
+      text: e,
+
+      icon: 'error',
+
+      confirmButtonText: 'Ok',
     });
   }
 
