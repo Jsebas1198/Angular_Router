@@ -18,7 +18,6 @@ import {
 export class ImgComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
-
   //Comentamos esta seccion porque ya no se utiliza, era solo para entender conceptos anteriores, se explica en el Notion
   // counter = 0;
   //Para apagar el setInterval que sigue corriendo auque la imagen haya sido destruida

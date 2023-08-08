@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UsersService } from './services/users.service';
 // import { IProduct } from './models/product.model';
 
 @Component({
@@ -9,6 +10,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   showImg = true;
   imgParent = 'https://www.w3schools.com/howto/img_avatar.png';
+  token = '';
   // products: IProduct[] = [
   //   {
   //     id: 1,
@@ -30,11 +32,25 @@ export class AppComponent {
   //   },
   // ];
 
+  constructor(private usersService: UsersService) {}
   onLoaded(img: string) {
     console.log('log padre', img);
   }
 
   toogleImg() {
     this.showImg = !this.showImg;
+  }
+
+  createUser() {
+    this.usersService
+      .create({
+        name: 'TEST',
+        email: 'TESTER@mail.com',
+        password: '123456',
+        avatar: 'https://source.unsplash.com/random',
+      })
+      .subscribe((rta) => {
+        console.log(rta);
+      });
   }
 }

@@ -13,13 +13,14 @@ import {
   updateProductDTO,
 } from './../models/product.model';
 import { throwError, zip } from 'rxjs';
+import { API_URL } from '../constants';
 
 // import { environment } from './../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  private apiUrl = 'https://api.escuelajs.co/api/v1/products';
+  private apiUrl = `${API_URL}/products`;
   // private apiUrl = `${environment.API_URL}/api/products`;
 
   constructor(private http: HttpClient) {}
