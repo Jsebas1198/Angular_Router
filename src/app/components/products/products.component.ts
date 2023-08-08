@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { zip } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import {
   CreateProductDTO,
   Product,
@@ -180,4 +181,28 @@ export class ProductsComponent implements OnInit {
         this.offset += this.limit;
       });
   }
+
+  //Función de ejemplo para explicar como trabajar con dos subscripciones a la vez
+  //Primero debe de traer el id del producto, luego ejecuta el update, por eso se usa 'switchMap'
+  //
+  readAndUpdate(id: string) {
+    this.productsService
+      .getProduct(id)
+      .pipe(
+        switchMap((product) =>
+          this.productsService.update(product.id, { title: 'change' })
+        )
+      )
+      .subscribe((data) => {
+        console.log(data);
+      });
+    this.productsService
+      .fetchReadAndUpdate(id, { title: 'change' })
+      .subscribe((response) => {
+        const read = response[0];
+        const update = response[1];
+      });
+  }
+  //
+  //
 }
