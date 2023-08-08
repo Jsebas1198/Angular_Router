@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreService } from 'src/app/services/store.service';
+
+import { StoreService } from '../../services/store.service';
+import { Product } from 'src/app/models/product.model';
 
 @Component({
   selector: 'app-nav',
@@ -7,20 +9,17 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-  //Contador para explicar la reactividad
+  activeMenu = false;
   counter = 0;
 
-  //Estado que controla si se muestra o no el menú
-  activeMenu = false;
-
   constructor(private storeService: StoreService) {}
+
   ngOnInit(): void {
-    this.storeService.myCart$.subscribe((products) => {
+    this.storeService.myCart$.subscribe((products: Product[]) => {
       this.counter = products.length;
     });
   }
 
-  //Funcion que modifica el estado para mostrar o no el menú en celulares
   toggleMenu() {
     this.activeMenu = !this.activeMenu;
   }

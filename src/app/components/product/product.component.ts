@@ -1,22 +1,37 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IProduct } from '../../models/product.model';
+
+import { Product } from '../../models/product.model';
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent {
-  @Output() addedProduct = new EventEmitter<IProduct>();
-  @Input('theProduct') product: IProduct = {
+  @Input() product: Product = {
     id: '',
     price: 0,
-    image: '',
+    images: [],
     title: '',
-    category: '',
-    description: ''
+    category: {
+      id: '',
+      name: '',
+    },
+    description: '',
   };
+  @Output() addedProduct = new EventEmitter<Product>();
+  @Output() showProduct = new EventEmitter<string>();
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  constructor() {}
+
+  //Emite un evento que permite detectar que se agregó un producto al carrito
   onAddToCart() {
     this.addedProduct.emit(this.product);
+  }
+
+  //Emite un evento para que se detecte que id se envió
+  onShowDetail() {
+    this.showProduct.emit(this.product.id);
   }
 }
