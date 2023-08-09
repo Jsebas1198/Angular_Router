@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/alt-text -->
 <app-nav></app-nav>
 <button (click)="createUser()">Create user</button>
 <p>
@@ -5,6 +6,10 @@
 </p>
 <p>
   <button (click)="downloadPdf()">Descargar PDF</button>
+</p>
+<p>
+  <input type="file" (change)="onUpload($event)" />
+  <img *ngIf="imgRta" [src]="imgRta" />
 </p>
 <hr />
 <app-products></app-products>

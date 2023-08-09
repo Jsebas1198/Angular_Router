@@ -12,26 +12,7 @@ export class AppComponent {
   showImg = true;
   imgParent = 'https://www.w3schools.com/howto/img_avatar.png';
   token = '';
-  // products: IProduct[] = [
-  //   {
-  //     id: 1,
-  //     name: 'Automobil de juguete',
-  //     price: 100,
-  //     image: 'https://source.unsplash.com/random',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Muñeca de trapo',
-  //     price: 180,
-  //     image: 'https://source.unsplash.com/random',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Pelota de futbol',
-  //     price: 120,
-  //     image: 'https://source.unsplash.com/random',
-  //   },
-  // ];
+  imgRta = '';
 
   constructor(
     private usersService: UsersService,
@@ -61,7 +42,26 @@ export class AppComponent {
   //Método para descargar un pdf con el método del fileService
   //El type para un archivo pdf es 'application/pdf'
   downloadPdf() {
-    this.filesService.getFile('my.pdf', 'https://young-sands-07814.herokuapp.com/api/files/dummy.pdf', 'application/pdf')
-    .subscribe()
+    this.filesService
+      .getFile(
+        'my.pdf',
+        'https://young-sands-07814.herokuapp.com/api/files/dummy.pdf',
+        'application/pdf'
+      )
+      .subscribe();
+  }
+
+  //Método para subir archivos
+  onUpload(event: Event) {
+    //Si es un input se verifican si hay archivos adjuntos y se selecciona solo un archivo
+    const element = event.target as HTMLInputElement;
+    const file = element.files?.item(0);
+    //Si existe file envia el archivo, si es tipo file es de tipo Blob por herencia
+    if (file) {
+      this.filesService.uploadFile(file).subscribe((rta) => {
+        //Location es la url que devuelve la respuesta del servidor con la imagen, esto es lo que se renderiza
+        this.imgRta = rta.location;
+      });
+    }
   }
 }
