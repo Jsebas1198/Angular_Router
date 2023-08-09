@@ -13,7 +13,7 @@ import { User } from 'src/app/models/user.model';
 export class NavComponent implements OnInit {
   activeMenu = false;
   counter = 0;
-  token = '';
+  // token = '';
   profile: User | null = null;
 
   constructor(
@@ -38,15 +38,17 @@ export class NavComponent implements OnInit {
     //   console.log(this.token);
     //   this.getProfile();
     // });
-    this.authService.loginAndGet('TESTER@mail.com', '123456').subscribe((user) => {
-      this.profile = user;
-      this.token = '---';
-    });
+    this.authService
+      .loginAndGet('TESTER@mail.com', '123456')
+      .subscribe((user) => {
+        this.profile = user;
+        // this.token = '---';
+      });
   }
 
-  getProfile() {
-    this.authService.getProfile(this.token).subscribe((user) => {
-      this.profile = user;
-    });
-  }
+  // getProfile() {
+  //   this.authService.getProfile().subscribe((user) => {
+  //     this.profile = user;
+  //   });
+  // }
 }
