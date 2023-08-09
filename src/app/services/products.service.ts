@@ -43,6 +43,7 @@ export class ProductsService {
     }
     //Debido a que se usan observables, podemos usar una funcionalidad para reintentar peticiones is fallan con retry de rxjs
     return this.http
+    //Acá habilitamos el interceptor con el contexto, entonces solamente esta función usa el timeInterceptor
       .get<Product[]>(this.apiUrl, { params, context: checkTime() })
       .pipe(
         retry(2),

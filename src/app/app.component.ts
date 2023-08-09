@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
+import { FilesService } from './services/files.service';
 // import { IProduct } from './models/product.model';
 
 @Component({
@@ -32,7 +33,10 @@ export class AppComponent {
   //   },
   // ];
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private filesService: FilesService
+  ) {}
   onLoaded(img: string) {
     console.log('log padre', img);
   }
@@ -52,5 +56,12 @@ export class AppComponent {
       .subscribe((rta) => {
         console.log(rta);
       });
+  }
+
+  //Método para descargar un pdf con el método del fileService
+  //El type para un archivo pdf es 'application/pdf'
+  downloadPdf() {
+    this.filesService.getFile('my.pdf', 'https://young-sands-07814.herokuapp.com/api/files/dummy.pdf', 'application/pdf')
+    .subscribe()
   }
 }
