@@ -21,7 +21,7 @@ import { checkTime } from '../interceptors/time.interceptor';
   providedIn: 'root',
 })
 export class ProductsService {
-  private apiUrl = `${API_URL}/products`;
+  // private apiUrl = `${API_URL}/products`;
   // private apiUrl = `${environment.API_URL}/api/products`;
 
   constructor(private http: HttpClient) {}
@@ -44,7 +44,7 @@ export class ProductsService {
     //Debido a que se usan observables, podemos usar una funcionalidad para reintentar peticiones is fallan con retry de rxjs
     return this.http
     //Acá habilitamos el interceptor con el contexto, entonces solamente esta función usa el timeInterceptor
-      .get<Product[]>(this.apiUrl, { params, context: checkTime() })
+      .get<Product[]>(`${API_URL}/products`, { params, context: checkTime() })
       .pipe(
         retry(2),
         map((product) =>
@@ -67,7 +67,7 @@ export class ProductsService {
 
   //Trae la información de un producto
   getProduct(id: string) {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`).pipe(
+    return this.http.get<Product>(`${API_URL}/products/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         switch (error.status) {
           case HttpStatusCode.ServiceUnavailable:
@@ -83,19 +83,28 @@ export class ProductsService {
     );
   }
 
+  getByCategory(categoryId: string, limit?: number, offset?: number){
+    let params = new HttpParams();
+    if (limit && offset != null) {
+      params = params.set('limit', limit);
+      params = params.set('offset', offset);
+    }
+    return this.http.get<Product[]>(`${API_URL}/categories/${categoryId}/products`, { params })
+  }
+
   //Crea un producto
   //Le enviamos un DTO, pero cuando responda nos envia un producto
   create(dto: CreateProductDTO) {
-    return this.http.post<Product>(this.apiUrl, dto);
+    return this.http.post<Product>(`${API_URL}/products`, dto);
   }
 
   //Edita un producto
   update(id: string, dto: updateProductDTO) {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, dto);
+    return this.http.put<Product>(`${API_URL}/products/${id}`, dto);
   }
 
   //Elimina un producto
   delete(id: string) {
-    return this.http.delete<boolean>(`${this.apiUrl}/${id}`);
+    return this.http.delete<boolean>(`${API_URL}/products/${id}`);
   }
 }

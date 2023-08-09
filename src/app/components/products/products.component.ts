@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { zip } from 'rxjs';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import {
   CreateProductDTO,
@@ -17,11 +17,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
+  @Input() products: Product[] = [];
+  @Output() loadMore = new EventEmitter();
+
   today = new Date(2019, 4, 4);
   anotherDate = new Date(2025, 5, 20);
   myShoppingCart: Product[] = [];
   total = 0;
-  products: Product[] = [];
   showProductDetail = false;
 
   //Para mostrar la informacion de un prodcuto
@@ -118,7 +120,7 @@ export class ProductsComponent implements OnInit {
   }
 
   //Muestra un modal si detecta un error
-  showDetailError(e: any) {
+  showDetailError(e: string) {
     this.statusDetail = 'error';
 
     this.toggleProductDetail();
@@ -173,13 +175,18 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  loadMore() {
-    this.productsService
-      .getAllProducts(this.limit, this.offset)
-      .subscribe((data: ConcatArray<Product>) => {
-        this.products = this.products.concat(data);
-        this.offset += this.limit;
-      });
+  //Este método se emite hacia el padre
+  // loadMore() {
+  //   this.productsService
+  //     .getAllProducts(this.limit, this.offset)
+  //     .subscribe((data: ConcatArray<Product>) => {
+  //       this.products = this.products.concat(data);
+  //       this.offset += this.limit;
+  //     });
+  // }
+
+  onLoadMore() {
+    this.loadMore.emit();
   }
 
   //Función de ejemplo para explicar como trabajar con dos subscripciones a la vez
