@@ -8,37 +8,48 @@ import { LoginComponent } from './website/pages/login/login.component';
 import { RegisterComponent } from './website/pages/register/register.component';
 import { RecoveryComponent } from './website/pages/recovery/recovery.component';
 import { NotFoundComponent } from './website/pages/not-found/not-found.component';
-
+import { LayoutComponent } from './website/components/layout/layout.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
-    path: 'home',
-    component: HomeComponent,
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'category/:id',
+        component: CategoryComponent,
+      },
+      {
+        path: 'product/:id',
+        component: ProductDetailComponent,
+      },
+      {
+        path: 'my-cart',
+        component: MycartComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+      {
+        path: 'recovery',
+        component: RecoveryComponent,
+      },
+    ],
   },
   {
-    path: 'category/:id',
-    component: CategoryComponent,
-  },
-  {
-    path: 'product/:id',
-    component: ProductDetailComponent,
-  },
-  {
-    path: 'my-cart',
-    component: MycartComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-  },
-  {
-    path: 'recovery',
-    component: RecoveryComponent,
+    path: 'cms',
+    loadChildren: () => import('./cms/cms.module').then((m) => m.CmsModule),
   },
   {
     path: '**',
