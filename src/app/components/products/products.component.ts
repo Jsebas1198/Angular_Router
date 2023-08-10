@@ -201,7 +201,7 @@ export class ProductsComponent implements OnInit {
         )
       )
       .subscribe((data) => {
-        console.log(data);
+        // console.log(data);
       });
     this.productsService
       .fetchReadAndUpdate(id, { title: 'change' })

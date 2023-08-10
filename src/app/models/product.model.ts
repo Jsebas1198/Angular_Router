@@ -11,6 +11,9 @@ export interface Product {
 export interface Category {
   id: string;
   name: string;
+  image?: string;
+  creationAt?: string;
+  updatedAt?: string;
 }
 
 //Interfaz para crear un producto, se omiten los campos que no se utilizan con Omit

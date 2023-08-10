@@ -19,7 +19,7 @@ export class AppComponent {
     private filesService: FilesService
   ) {}
   onLoaded(img: string) {
-    console.log('log padre', img);
+    // console.log('log padre', img);
   }
 
   toogleImg() {
@@ -35,7 +35,7 @@ export class AppComponent {
         avatar: 'https://source.unsplash.com/random',
       })
       .subscribe((rta) => {
-        console.log(rta);
+        // console.log(rta);
       });
   }
 
