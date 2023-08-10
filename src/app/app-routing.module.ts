@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { RecoveryComponent } from './pages/recovery/recovery.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,7 +17,11 @@ const routes: Routes = [
   },
   {
     path: 'category/:id',
-    component: CategoryComponent
+    component: CategoryComponent,
+  },
+  {
+    path: 'product/:id',
+    component: ProductDetailComponent,
   },
   {
     path: 'my-cart',
@@ -36,8 +41,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: NotFoundComponent
-  }
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({
