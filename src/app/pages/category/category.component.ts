@@ -7,7 +7,11 @@ import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-category',
-  template: `<app-products [products]="products" (loadMore)="onLoadMore()"></app-products>`,
+  template: `<app-products
+    [products]="products"
+    (loadMore)="onLoadMore()"
+    [productId]="productId"
+  ></app-products>`,
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
@@ -15,6 +19,7 @@ export class CategoryComponent implements OnInit {
   limit = 10;
   offset = 0;
   products: Product[] = [];
+  productId: string | null = null;
 
   constructor(
     //Permite capturar un id
@@ -40,6 +45,9 @@ export class CategoryComponent implements OnInit {
       .subscribe((data) => {
         this.products = data;
       });
+    this.route.queryParamMap.subscribe((params) => {
+      this.productId = params.get('product');
+    });
   }
 
   onLoadMore() {

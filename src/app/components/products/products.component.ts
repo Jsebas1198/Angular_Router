@@ -18,6 +18,14 @@ import Swal from 'sweetalert2';
 })
 export class ProductsComponent implements OnInit {
   @Input() products: Product[] = [];
+  // @Input() productId: string | null = null;
+  //Lo hacemos un set para vigilar continuamente los cambios del input
+  @Input()
+  set productId(id: string | null) {
+    if (id) {
+      this.onShowDetail(id);
+    }
+  }
   @Output() loadMore = new EventEmitter();
 
   today = new Date(2019, 4, 4);
@@ -96,6 +104,10 @@ export class ProductsComponent implements OnInit {
       this.showProductDetail == true
     ) {
       this.showProductDetail = false;
+    }
+
+    if (this.showProductDetail == false) {
+      this.showProductDetail = true;
     }
 
     this.productsService.getProduct(id).subscribe({
