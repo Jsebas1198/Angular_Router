@@ -5,10 +5,10 @@ import {
   CreateProductDTO,
   Product,
   updateProductDTO,
-} from '../../models/product.model';
+} from 'src/app/models/product.model';
+import { ProductsService } from 'src/app/services/products.service';
+import { StoreService } from 'src/app/services/store.service';
 
-import { StoreService } from '../../services/store.service';
-import { ProductsService } from '../../services/products.service';
 import Swal from 'sweetalert2';
 
 @Component({
