@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 import {
   CreateProductDTO,
   Product,
@@ -8,8 +11,6 @@ import {
 } from 'src/app/models/product.model';
 import { ProductsService } from 'src/app/services/products.service';
 import { StoreService } from 'src/app/services/store.service';
-
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-products',
@@ -51,7 +52,8 @@ export class ProductsComponent implements OnInit {
   statusDetail: 'loading' | 'success' | 'loading' | 'error' | 'init' = 'init';
   constructor(
     private storeService: StoreService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private router: Router
   ) {
     this.myShoppingCart = this.storeService.getShoppingCart();
   }
@@ -60,11 +62,6 @@ export class ProductsComponent implements OnInit {
     this.productsService.getAllProducts(10, 0).subscribe((data: Product[]) => {
       this.products = data;
     });
-
-    // this.productsService.getProductsByPage(10, 0).subscribe((data) => {
-    //   this.products = data;
-    //   this.offset += this.limit;
-    // });
   }
 
   onAddToShoppingCart(product: Product) {
@@ -112,13 +109,6 @@ export class ProductsComponent implements OnInit {
 
     this.productsService.getProduct(id).subscribe({
       next: (d) => this.showDetailOk(d),
-      // next: (data: Product) => {
-      //   this.productChosen = data;
-      //   this.statusDetail = 'success';
-      //   if (!this.showProductDetail) {
-      //     this.toggleProductDetail();
-      //   }
-      // },
       error: (e) => this.showDetailError(e),
     });
   }
@@ -184,6 +174,7 @@ export class ProductsComponent implements OnInit {
       );
       this.products.splice(productIndex, 1);
       this.showProductDetail = false;
+      this.router.navigate(['/home']);
     });
   }
 
