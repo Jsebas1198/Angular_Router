@@ -46,7 +46,7 @@ export class NavComponent implements OnInit {
 
     //   });
 
-    this.authService.loginAndGet('john@mail.com', 'changeme').subscribe(() => {
+    this.authService.loginAndGet('admin@mail.com', 'admin123').subscribe(() => {
       this.router.navigate(['/profile']);
     });
   }
