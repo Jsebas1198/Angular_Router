@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { Category, Product } from 'src/app/models/product.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
@@ -21,13 +21,17 @@ export class NavComponent implements OnInit {
   constructor(
     private storeService: StoreService,
     private authService: AuthService,
-    private categoriesService: CategoriesService
+    private categoriesService: CategoriesService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.storeService.myCart$.subscribe((products: Product[]) => {
       this.counter = products.length;
     });
     this.getAllCategories();
+    this.authService.user$.subscribe((data) => {
+      this.profile = data;
+    });
   }
 
   toggleMenu() {
@@ -35,18 +39,16 @@ export class NavComponent implements OnInit {
   }
 
   login() {
-    // this.authService.login('sebas@mail.com', '1212')
-    // .subscribe(rta => {
-    //   this.token = rta.access_token;
-    //   console.log(this.token);
-    //   this.getProfile();
-    // });
-    this.authService
-      .loginAndGet('TESTER@mail.com', '123456')
-      .subscribe((user) => {
-        this.profile = user;
-        // this.token = '---';
-      });
+    // this.authService
+    //   .loginAndGet('TESTER@mail.com', '123456')
+    //   .subscribe((user) => {
+    //     this.profile = user;
+
+    //   });
+
+    this.authService.loginAndGet('john@mail.com', 'changeme').subscribe(() => {
+      this.router.navigate(['/profile']);
+    });
   }
 
   getAllCategories() {
@@ -55,6 +57,11 @@ export class NavComponent implements OnInit {
     });
   }
 
+  logout() {
+    this.authService.logout();
+    this.profile = null;
+    this.router.navigate(['/home']);
+  }
   // getProfile() {
   //   this.authService.getProfile().subscribe((user) => {
   //     this.profile = user;
