@@ -65,13 +65,14 @@ export class ImgComponent
     // console.log('ngOnDestroy');
     // window.clearInterval(this.counterFn);
   }
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   img: string = '';
   @Input('img')
   set changeImg(newImg: string) {
     this.img = newImg;
     // console.log('solo cambio la imagen =>', this.img);
   }
-  @Input() alt: string = '';
+  @Input() alt = '';
   @Output() loaded = new EventEmitter<string>();
   imgDefault = '../../../assets/images/default.jpg';
   imgError() {
